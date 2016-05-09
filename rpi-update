@@ -347,6 +347,13 @@ REPO_API=${REPO_URI/github.com/api.github.com\/repos}/git/refs/heads/${BRANCH}
 GITREV=$(curl -s ${REPO_API} | awk '{ if ($1 == "\"sha\":") { print substr($2, 2, 40) } }')
 FW_REV=${FW_REV:-${GITREV}}
 
+if [[ ( $# == "--help") ||  $# == "-h" ]]
+	then
+		echo "Help\n"
+		display_usage
+		exit 0
+	fi
+
 if [[ "${FW_REV}" == "" ]]; then
 	echo " *** No hash received from github: ${REPO_API}"
 	# run again with errors not suppressed
@@ -374,11 +381,6 @@ else
 	fi
 fi
 
-if [[ ( $# == "--help") ||  $# == "-h" ]]
-	then
-		echo "Help\n"
-		display_usage
-		exit 0
-	fi
+
 
 #do_update
