@@ -2,25 +2,19 @@
 
 An easier way to update the firmware of your Raspberry Pi.
 
-## Installing under Raspbian
+## Installing
 
+### Installing under Raspbian
+ 
 To install the tool, run the following command:
 
     sudo apt-get install rpi-update
 
-## Installing on other OS
-
-### Preparations
-
-You need git installed to use this too. To install run:
-
-    sudo apt-get install git-core
-
-### Installing
+### Installing under other OSes
 
 To install the tool, run the following command:
 
-    sudo wget https://raw.github.com/Hexxeh/rpi-update/master/rpi-update -O /usr/bin/rpi-update && sudo chmod +x /usr/bin/rpi-update
+    sudo curl -L --output /usr/bin/rpi-update https://raw.githubusercontent.com/Hexxeh/rpi-update/master/rpi-update && sudo chmod +x /usr/bin/rpi-update
 
 ## Updating
 
@@ -62,6 +56,19 @@ You can disable this behavior by:
 Will update everything **except** the `kernel.img` files and the kernel modules.
 Use with caution, some firmware updates might depend on a kernel update.
 
+#### `SKIP_BACKUP`
+
+    sudo SKIP_BACKUP=1 rpi-update
+
+Avoids making backup of /boot and /lib/modules on first run.
+
+#### `SKIP_REPODELETE`
+
+    sudo SKIP_REPODELETE=1 rpi-update
+
+By default the downloaded files (/root/.rpi-firmware) are deleted at end of update.
+Use this option to keep the files.
+
 #### `ROOT_PATH` and `BOOT_PATH`
 
     sudo ROOT_PATH=/media/root BOOT_PATH=/media/boot rpi-update
@@ -79,6 +86,15 @@ from the specified branch, eg:
     sudo BRANCH=next rpi-update
 
 will use the 'next' branch.
+
+#### `PRUNE_MODULES`
+
+Allows you to delete unused module directories when doing an update. Set it equal to a non-zero value and it will remove all modules except the latest installed:
+
+    sudo PRUNE_MODULES=1 rpi-update
+
+will remove previously installed module files. Use this option to free disk space used by older module updates.
+
 
 #### Troubleshooting
 
