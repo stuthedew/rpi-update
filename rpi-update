@@ -225,7 +225,10 @@ function do_backup {
 }
 
 function do_update {
-	show_notice
+	if [[ ${SKIP_PROMPT} -ne 0 ]]; then
+		show_notice
+	fi
+
 	download_rev
 	if [[ -f "${FW_REPOLOCAL}/pre-install" ]]; then
 		echo " *** Running pre-install script"
@@ -384,4 +387,4 @@ fi
 
 
 
-#do_update
+do_update
