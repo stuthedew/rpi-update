@@ -376,8 +376,9 @@ fi
 
 if [[ ( $# == "--help") ||  $# == "-h" ]]
 	then
+		echo "Help\n"
 		display_usage
 		exit 0
 	fi
 
-do_update
+#do_update
