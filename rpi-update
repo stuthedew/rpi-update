@@ -42,6 +42,15 @@ FW_REV=${1:-""}
 FW_REVFILE="${FW_PATH}/.firmware_revision"
 [ "${RPI_UPDATE_UNSUPPORTED}" -ne 0 ] && echo -e "You appear to be trying to update firmware on an incompatible distribution. To force update, run the following:\nsudo -E RPI_UPDATE_UNSUPPORTED=0 rpi-update" && exit 1
 
+SKIP_PROMPT=${SKIP_PROMPT:-0}
+
+function display_usage(){
+	echo "This script must be run with super-user privileges."
+	echo -e "\nUsage:\n$0 [arguments] \n"
+
+	echo $SKIP_PROMPT
+}
+
 function update_self() {
 	echo " *** Performing self-update"
 	_tempFileName="$0.tmp"
@@ -364,5 +373,11 @@ else
 		exit 2
 	fi
 fi
+
+if [[ ( $# == "--help") ||  $# == "-h" ]]
+	then
+		display_usage
+		exit 0
+	fi
 
 do_update
