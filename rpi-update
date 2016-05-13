@@ -314,7 +314,7 @@ fi
 
 echo " *** Raspberry Pi firmware updater by Hexxeh, enhanced by AndrewS and Dom"
 
-if [[ ( $1 == "--help") ||  $1 == "-h" ]]
+if [[ $# == 0 || $1 == --help || $1 == "-h" ]]
 	then
 		echo "Help\n"
 		display_usage
