@@ -42,14 +42,6 @@ FW_REV=${1:-""}
 FW_REVFILE="${FW_PATH}/.firmware_revision"
 [ "${RPI_UPDATE_UNSUPPORTED}" -ne 0 ] && echo -e "You appear to be trying to update firmware on an incompatible distribution. To force update, run the following:\nsudo -E RPI_UPDATE_UNSUPPORTED=0 rpi-update" && exit 1
 
-SKIP_PROMPT=${SKIP_PROMPT:-0}
-
-function display_usage(){
-	echo "This script must be run with super-user privileges."
-	echo -e "\nUsage:\n$0 [arguments] \n"
-
-}
-
 function update_self() {
 	echo " *** Performing self-update"
 	_tempFileName="$0.tmp"
@@ -224,10 +216,7 @@ function do_backup {
 }
 
 function do_update {
-	if [[ ${SKIP_PROMPT} -eq 0 ]]; then
-		show_notice
-	fi
-
+	show_notice
 	download_rev
 	if [[ -f "${FW_REPOLOCAL}/pre-install" ]]; then
 		echo " *** Running pre-install script"
@@ -314,13 +303,6 @@ fi
 
 echo " *** Raspberry Pi firmware updater by Hexxeh, enhanced by AndrewS and Dom"
 
-#if [[ $# == 0 || $1 == --help || $1 == "-h" ]]
-#	then
-#		echo "Help\n"
-#		display_usage
-#		exit 0
-#	fi
-
 if [[ ! -d ${WORK_PATH} ]]; then
 	echo " !!! ${WORK_PATH} doesn't exist - creating"
 	mkdir -p ${WORK_PATH}
@@ -356,7 +338,6 @@ REPO_API=${REPO_URI/github.com/api.github.com\/repos}/git/refs/heads/${BRANCH}
 GITREV=$(curl -s ${REPO_API} | awk '{ if ($1 == "\"sha\":") { print substr($2, 2, 40) } }')
 FW_REV=${FW_REV:-${GITREV}}
 
-
 if [[ "${FW_REV}" == "" ]]; then
 	echo " *** No hash received from github: ${REPO_API}"
 	# run again with errors not suppressed
@@ -383,7 +364,5 @@ else
 		exit 2
 	fi
 fi
-
-
 
 do_update
